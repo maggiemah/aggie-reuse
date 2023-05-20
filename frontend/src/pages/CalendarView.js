@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import Header from "../components/Header";
+import Header from "../components/header/Header";
 
 const CalendarView = () => {
 	const [inventory, setInventory] = useState(null); // array of inventory data for specified dates
