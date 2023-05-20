@@ -37,18 +37,19 @@ app.get('/getitems/:collection', async (req, res) => {
   }
 });
 
-// Define model
-//const Item = mongoose.model('Item', itemSchema);
+// // Define model
+// const Item = mongoose.model('Item', itemSchema);
 
-/*app.get('/getitem/:name', async (req, res) => {
-  const itemName = req.params.name;
-  console.log(itemName);
-  const item = await Item.findOne({ name: itemName }); // Retrieves one item from collection
-  if (!item) {
-    return res.status(404).send('Item not found');
-  }
-  res.json(item);
-});*/
+// app.get('/getitem/:name', async (req, res) => {
+//   const itemName = req.params.name;
+//   console.log(itemName);
+//   const item = await Item.findOne({ name: itemName }); // Retrieves one item from collection
+//   if (!item) {
+//     return res.status(404).send('Item not found');
+//   }
+//   res.json(item);
+//   res.send(item);
+// });
 
 
 app.get("/", (req, res) => {

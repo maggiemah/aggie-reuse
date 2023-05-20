@@ -1,11 +1,24 @@
-header {
-    position: absolute;
+.header-container {
+    display: flex;
+    flex-direction: row;
+}
 
+.header-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 20px;
+    color: navy;
+    > h1 {
+        margin: 0;
+    }
+    > h2 {
+        margin: 0;
+        font-weight: 100;
+    }
 }
 
 #logo {
     width: 133px;
     height: 133px;
-    left: 31px;
-    top: 23px;
 }
