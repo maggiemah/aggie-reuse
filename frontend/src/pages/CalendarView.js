@@ -1,7 +1,23 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import Header from "../components/Header";
 
 const CalendarView = () => {
 	const [inventory, setInventory] = useState(null); // array of inventory data for specified dates
+
+	const getDefaultDateRange = useCallback(() => {
+		let newDate = new Date();
+		// let day = newDate.getDay();
+		// let date = newDate.getDate();
+		// let month = newDate.getMonth() + 1;
+		// let year = newDate.getFullYear();
+
+		let firstDate = new Date();
+		firstDate.setDate(newDate.getDate() - 5);
+		let day = firstDate.getDay();
+		let date = firstDate.getDate();
+		let month = firstDate.getMonth() + 1;
+		let year = firstDate.getFullYear();
+	})
 
 	useEffect(() => {
 		const fetchInventory = async (_dates) => {
@@ -32,10 +48,27 @@ const CalendarView = () => {
 		fetchInventory('05_15_2023-05_19_2023');
 	}, []);
 
+	let newDate = new Date();
+	// let day = newDate.getDay();
+	// let date = newDate.getDate();
+	// let month = newDate.getMonth() + 1;
+	// let year = newDate.getFullYear();
+
+	let firstDate = new Date();
+	firstDate.setDate(newDate.getDate() - 5);
+
+	let day = firstDate.getDay();
+	let date = firstDate.getDate();
+	let month = firstDate.getMonth() + 1;
+	let year = firstDate.getFullYear();
+
+
 	return (
-		<div className="calendar-view">
+		<><Header /><div className="calendar-view">
 			<h2>hi</h2>
-		</div>
+			<>{year}-{month < 10 ? `0${month}` : ` ${month}`}-{date}, Day {day}</>
+
+		</div></>
 	)
 }
 
