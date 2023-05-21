@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Header from "../components/header/Header";
 import Month from "../components/calendar/month/Month"
+import WeekRange from "../components/calendar/week_range/WeekRange"
+import "./CalendarView.css"
 
 const CalendarView = () => {
 	const [inventory, setInventory] = useState(null); // array of inventory data for specified dates
@@ -21,9 +23,11 @@ const CalendarView = () => {
 	})
 
 	useEffect(() => {
-		const fetchInventory = async (_dates) => {
-			// const response = await fetch(`http://localhost:4000/api/inventory/${_dates}`);
-			// const json = await response.json();
+		const fetchInventory = async (_date) => {
+			const month = _date.getMonth() + 1;
+			const date = _date.getDate();
+			const response = await fetch(`http://localhost:3000//getitems/${month}%2F${date}_Items`);
+			const json = await response.json();
 
 			const dummyData = [{
 				id: 1,
@@ -39,14 +43,16 @@ const CalendarView = () => {
 				supplier: "N/A"
 			}];
 
-			// if(response.ok) {
-			// 	setInventory(json);
-			// } else {
+			if(response.ok) {
+				setInventory(json);
+			} else {
 			setInventory(dummyData);
-			console.log(dummyData);
-			// }
+			console.log(inventory);
+			console.log("heelo");
+			}
 		}
-		fetchInventory('05_15_2023-05_19_2023');
+		fetchInventory(new Date());
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	let newDate = new Date();
@@ -56,7 +62,7 @@ const CalendarView = () => {
 	// let year = newDate.getFullYear();
 
 	let firstDate = new Date();
-	firstDate.setDate(newDate.getDate() - 5);
+	firstDate.setDate(newDate.getDate() - newDate.getDay() + 1);
 
 	let day = firstDate.getDay();
 	let date = firstDate.getDate();
@@ -68,11 +74,11 @@ const CalendarView = () => {
 
 	return (
 		<><Header />
-		<Month month_value={month} year={year}/>
 		<div className="calendar-view">
+			<Month month_value={month} year={year}/>
+			<WeekRange startDate={firstDate}/>
 			<h2>hi</h2>
 			<>{year}-{month < 10 ? `0${month}` : ` ${month}`}-{date}, Day {day}</>
-
 		</div></>
 	)
 }

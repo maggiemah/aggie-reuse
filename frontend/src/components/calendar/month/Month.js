@@ -3,7 +3,7 @@ import './Month.css';
 
 const Month = ({month_value, year}) => {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  
+
 
 	return (
 		<div class="month-box">
