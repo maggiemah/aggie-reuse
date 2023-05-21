@@ -3,6 +3,12 @@
 	flex-direction: column;
 	flex-wrap: wrap;
 	align-content: center;
+    background-color: #10074A;
+    color: white;
+    width: 100%;
+    margin: 0;
+    padding-bottom: 12px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .month-box {
@@ -19,4 +25,24 @@
 #right-month-button {
     margin-left: 24px;
     font-weight: 100;
+}
+
+.button {
+    padding-left: 14px;
+    display: flex;
+    align-items: center;
+    border-radius: 35px;
+    width: 187px;
+    height: 48px;
+
+    background: #E6E1B8;
+    font-family: 'Poppins';
+    font-weight: 400;
+    font-size: 19px;
+    text-align: right;
+}
+
+.button.img {
+    width: 23px;
+    height: 23px;
 }

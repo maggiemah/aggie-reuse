@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Header from "../components/header/Header";
 import WeekRange from "../components/calendar/week_range/WeekRange"
+import pencil from "../assets/pencil.png";
+
 import "./CalendarView.css"
 
 const CalendarView = () => {
@@ -87,7 +89,10 @@ const CalendarView = () => {
 			{/* <h2>hi</h2>
 			<>{year}-{month < 10 ? `0${month}` : ` ${month}`}-{date}, Day {day}</> */}
 		</div>
-		<button>Add/Remove</button>
+		<button class="button">
+			<img src={pencil} alt='pencil' />
+			Add/Remove
+		</button>
 		{cat_arr}
 		</>
 	)
