@@ -114,35 +114,3 @@ const port = process.env.PORT || 3001;
 app.listen(port, () => {
   console.log("Server listening the port http://localhost/" + port);
 });
-
-
-
-
-
-
-
-
-
-
-// Unused code for duplicating specified collection
-
-    /*try {
-      const Item = mongoose.model(name, itemSchema, name);
-      const items = await Item.find({ }); // Creates collection with name var as its name
-
-      // Create new documents in 'Items'
-      const copiedItems = items.map(item => {
-        // Remove '_id' property to avoid duplicate key error
-        const { ...rest } = item._doc;
-        return rest;
-      });
-
-      // Insert copied items into the 'Items' collection
-      await Item.insertMany(copiedItems);
-
-      res.status(200).send('Items collection has been duplicated into Items2');
-
-    } catch (err) {
-      console.log(err);
-      res.status(500).send(err.message);
-    }*/
