@@ -10,6 +10,7 @@ const CalendarView = () => {
 	mondayToday.setDate(mondayToday.getDate() - mondayToday.getDay() + 1)
 	const [firstDate] = useState(mondayToday);
 	const [inventory, setInventory] = useState(null); // array of inventory data for specified dates
+	const [datesToUpdate, setUpdates] = useState(null);
 	const months = useMemo(() => {
 		return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 	}, []);
@@ -17,7 +18,7 @@ const CalendarView = () => {
 	const changeWeek = useCallback((forward) => {
 		const daysAdjusted = forward ? 7 : -7;
 		firstDate.setDate(firstDate.getDate() + daysAdjusted);
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	const categories = useMemo(() => {
@@ -55,28 +56,37 @@ const CalendarView = () => {
 	}, [firstDate]);
 
 	useEffect(() => {
+		if (!inventory || !datesToUpdate) return;
 		const updateInventory = async (fullDate) => {
-			// const month = fullDate.getMonth();
-			// const date = fullDate.getDate();
-			// let response;
-			// try {
-			// 	response = await fetch(`http://localhost:3000/updateitem/${month + 1}%2F${date}_Items`, {
-			// 		method: 'PUT',
-			// 	});
-			// }
-			// catch (err) {
-			// 	console.log(err);
-			// }
-			// console.log(response);
+			const month = fullDate.getMonth();
+			const date = fullDate.getDate();
+			let response;
+			try {
+				response = await fetch(`http://localhost:3000/updateitem/${month + 1}%2F${date}_Items`, {
+					method: 'PUT',
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({data: inventory[fullDate.getDay()-1]}),
+				});
+			}
+			catch (err) {
+				console.log(err);
+			}
+			console.log(response);
 			// const json = await response.json();
 			// console.log(json);
 		}
 
-		updateInventory(new Date());
-	}, []);
+		for (const date in datesToUpdate) {
+			updateInventory(date).catch(err => console.log(err));
+		}
+		setUpdates(null);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [datesToUpdate, inventory]);
 
 	useEffect(() => {
-		console.log(inventory)
+		// console.log(inventory)
 	}, [inventory])
 
 	const changeView = () => {
