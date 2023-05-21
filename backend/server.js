@@ -74,7 +74,7 @@ app.get('/getitems/:collectionName', async (req, res) => {
 });
 
 // Route to update item quantity by its name
-app.get('/updateitem/:collectionName/:name/:increment', async (req, res) => {
+app.get('/updateitem/:collectionName/:name/:quantity', async (req, res) => {
   const collectionName = req.params.collectionName;
 
   // Gets all collections to check if requested collection exists
@@ -88,13 +88,12 @@ app.get('/updateitem/:collectionName/:name/:increment', async (req, res) => {
 
   const Item = mongoose.model(collectionName, itemSchema);
   const name = req.params.name; // name stored in document
-  let increment = Number(req.params.increment); // 0 means decrement by 1, 1 means increment by 1
-  if (increment == 0) { increment = -1; }
+  let quantity = Number(req.params.quantity);
 
   try {
     const updatedItem = await Item.findOneAndUpdate(
       { name: name },
-      { $inc: { quantity: increment } },
+      { $set: { quantity: quantity } },
       { new: true } // This option returns the updated document
     );
 

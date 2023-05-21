@@ -38,13 +38,35 @@ const DateColumn = ({ fullDate, inventory }) => {
 		return data;
 	}, []);
 
-	const keyPressed = (e) => {
+	const updateInventory = async (fullDate) => {
+		const month = fullDate.getMonth();
+		const date = fullDate.getDate();
+		let response;
+		try {
+			response = await fetch(`http://localhost:3001/updateitem/${month + 1}%2F${date}_Items`, {
+				method: 'GET',
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({data: inventory[fullDate.getDay()-1]}),
+			});
+		}
+		catch (err) {
+			console.log(err);
+		}
+		console.log(response);
+		// const json = await response.json();
+		// console.log(json);
+	};
+
+	const keyPressed = async (e) => {
 		if (e.key === 'Enter') {
 			console.log("Enter");
 			setData(getCurrentData(true));
 			console.log(data)
 			setInput(!input);
 			setUpdate(true);
+			await updateInventory(fullDate);
 		}
 		else if (e.key === 'Escape') {
 			console.log("Escape");

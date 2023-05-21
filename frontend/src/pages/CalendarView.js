@@ -62,7 +62,7 @@ const CalendarView = () => {
 			const date = fullDate.getDate();
 			let response;
 			try {
-				response = await fetch(`http://localhost:3000/updateitem/${month + 1}%2F${date}_Items`, {
+				response = await fetch(`http://localhost:3001/updateitem/${month + 1}%2F${date}_Items/Bags/5`, {
 					method: 'PUT',
 					headers: {
 						"Content-Type": "application/json",
