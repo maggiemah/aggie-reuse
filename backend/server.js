@@ -1,9 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
-var cors = require('cors');
-
 const app = express();
-app.use(cors());
+const cors = require('cors')
+app.use(cors())
 
 // MongoDB connection
 const uri = 'mongodb+srv://jiff3:AZOzXtaEaNAmvv6j@baggies.ayk7doq.mongodb.net/Aggie_Reuse_Inventory?retryWrites=true&w=majority';
@@ -114,7 +113,7 @@ app.get("/", (req, res) => {
   res.send("connected");
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 app.listen(port, () => {
   console.log("Server listening the port http://localhost/" + port);
 });

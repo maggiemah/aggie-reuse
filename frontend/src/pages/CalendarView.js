@@ -18,21 +18,18 @@ const CalendarView = () => {
 	}, [])
 
 	useEffect(() => {
-		const fetchInventory = async(startDate) => {
+		const fetchInventory = async (startDate) => {
 			const month = startDate.getMonth();
 			const date = startDate.getDate();
-
-			// const year = startDate.getYear();
-			const response = await fetch(`http://localhost:3000//getitems/${month}%2F${date}_Items`, {
-				method: 'GET',
-			});
-			// const params = {
-			// 	collectionName: `${month}%2F${date}_Items`
-			// };
-			// const response = await fetch(`/getitems`, {
-			// 	method: 'GET',
-			// 	body: JSON.stringify( params )
-			// });
+			let response;
+			try {
+				response = await fetch(`http://localhost:3000/getitems/${month + 1}%2F${date}_Items`, {
+					method: 'GET',
+				});
+			}
+			catch (err) {
+				console.log(err);
+			}
 			console.log(response);
 			const json = await response.json();
 			console.log(json);
@@ -41,8 +38,30 @@ const CalendarView = () => {
 		fetchInventory(new Date());
 	}, []);
 
+	useEffect(() => {
+		const updateInventory = async (fullDate) => {
+			const month = fullDate.getMonth();
+			const date = fullDate.getDate();
+			let response;
+			try {
+				response = await fetch(`http://localhost:3000/updateitem/${month + 1}%2F${date}_Items`, {
+					method: 'PUT',
 
-	// const 
+				});
+			}
+			catch (err) {
+				console.log(err);
+			}
+			console.log(response);
+			const json = await response.json();
+			console.log(json);
+		}
+
+		updateInventory(new Date());
+	}, []);
+
+
+	// const
 
 	const changeView = () => {
 
