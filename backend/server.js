@@ -76,6 +76,7 @@ app.get('/getitems/:collectionName', async (req, res) => {
 // Route to update item quantity by its name
 app.get('/updateitem/:collectionName/:name/:quantity', async (req, res) => {
   const collectionName = req.params.collectionName;
+  //console.log(collectionName);
 
   // Gets all collections to check if requested collection exists
   const collections = await mongoose.connection.db.listCollections().toArray();
@@ -86,14 +87,14 @@ app.get('/updateitem/:collectionName/:name/:quantity', async (req, res) => {
     createNewItem(collectionName, itemSchema, collectionName);
   }
 
-  const Item = mongoose.model(collectionName, itemSchema);
+  const Item = mongoose.model(collectionName, itemSchema, collectionName);
   const name = req.params.name; // name stored in document
-  let quantity = Number(req.params.quantity);
+  let q = Number(req.params.quantity);
 
   try {
     const updatedItem = await Item.findOneAndUpdate(
       { name: name },
-      { $set: { quantity: quantity } },
+      { $set: { quantity: q } },
       { new: true } // This option returns the updated document
     );
 
@@ -108,7 +109,7 @@ app.get('/updateitem/:collectionName/:name/:quantity', async (req, res) => {
   }
 });
 
-// Route to update item quantity by its name
+/*// Route to update item quantity by its name
 app.get('/updateitem/:collectionName', async (req, res) => {
   const collectionName = req.params.collectionName;
 
@@ -144,7 +145,7 @@ app.get('/updateitem/:collectionName', async (req, res) => {
     }
   }
 });
-
+*/
 app.get("/", (req, res) => {
   res.send("connected");
 });
