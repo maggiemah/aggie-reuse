@@ -34,6 +34,33 @@ app.get('/getitems/:collectionName', async (req, res) => {
   res.json(items);
 });
 
+// Route to update item quantity by its name
+app.put('/updateitem/:collectionName/:name/:increment', async (req, res) => {
+  const collectionName = req.params.collectionName;
+  const Item = mongoose.model(name, itemSchema, name);
+  const { name } = req.params.name; // name stored in document
+  const { increment } = req.params.increment; // 0 means decrement by 1, 1 means increment by 1
+  if(increment == 0){increment = -1;}
+
+  try {
+    const updatedItem = await Item.findByIdAndUpdate(
+      { name: name },
+      { $inc: { quantity: increment } },
+      { new: true } // This option returns the updated document
+    );
+
+    if (!updatedItem) {
+      return res.status(404).send('Item not found');
+    }
+
+    res.json(updatedItem);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+});
+
+
 
 app.get("/", (req, res) => {
   res.send("connected");
