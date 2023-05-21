@@ -13,7 +13,7 @@ db.once('open', function() {
   console.log('Connected to MongoDB Atlas!');
 });
 
-// Define schema for your collection
+// Define schema for collection
 const itemSchema = new mongoose.Schema({
   id: Number,
   name: String,
@@ -22,18 +22,16 @@ const itemSchema = new mongoose.Schema({
   supplier: String
 });
 
-const Item = mongoose.model('5/20_Items', itemSchema, '5/20_Items');
-
-// Define your endpoint
-app.get('/getitems', async (req, res) => {
-
+// Returns JSON of document of requested collection
+app.get('/getitems/:collectionName', async (req, res) => {
+  const name = req.params.collectionName;
+  const Item = mongoose.model(name, itemSchema, name);
   const items = await Item.find({ });
   console.log(items);
   if (!items) {
     return res.status(404).send('Item not found');
   }
   res.json(items);
-
 });
 
 
