@@ -58,11 +58,12 @@ app.get('/getitems/:collectionName', async (req, res) => {
       { id: 20, name: "Miscellaneous", quantity: 0, price: 0, supplier: "None" }
       ];
       await Item.insertMany(newItems);
+      console.log("inserted for ", name);
   }
 
   const Item = mongoose.model(name, itemSchema, name);
   const items = await Item.find({ });
-  console.log(items);
+  // console.log(items);
 
   if (items.length == 0) {
     return res.status(404).send('Item not found');

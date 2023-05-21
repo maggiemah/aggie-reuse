@@ -1,21 +1,20 @@
 import React, { useMemo, useState } from 'react';
 import './DateColumn.css';
 
-const DateColumn = ({ fullDate }) => {
+const DateColumn = ({ fullDate, inventory }) => {
 	const days = useMemo(() => {
 		return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 	}, []);
 	const [input, setInput] = useState(false);
-	// const months = useMemo(() => {
-	// 	return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-	// }, []);
 
 	const categories = ["Bags", "Belts", "Books", "Dresses", "Hats",
 		"Households", "Jackets", "Long-Sleeves", "Pants", "Jewelry",
 		"Supplies", "Shirts", "Shoes", "Shorts", "Sunglasses", "Sweaters",
 		"Tanks", "Ties", "Misc"];
 
-	if (input)
+	if (!inventory)
+		return (<></>)
+	else if (input)
 		return (
 			<div className='date-container'>
 				<h3>{fullDate.getDate()}</h3>
@@ -23,13 +22,11 @@ const DateColumn = ({ fullDate }) => {
 
 				{categories.map((cat, i) => {
 					return <div className="category">
-						{/* <button>-</button> */}
 						<input className="category" type="number"
-							placeholder="0"
+							placeholder={inventory[fullDate.getDay() - 1][i].quantity || "0"}
 							min="0"
-							max="99"
-							onkeydown={() => setInput(!input)} />
-						{/* <button>+</button> */}
+							max="99" />
+						{/* onClick={() => setInput(!input)} /> */}
 					</div>;
 				})}
 			</div>
@@ -42,7 +39,9 @@ const DateColumn = ({ fullDate }) => {
 
 				{categories.map((cat, i) => {
 					return <div className="category category2">
-						<h4 className="value" onClick={() => setInput(!input)} >0</h4>
+						<h4 className="value" onClick={() => setInput(!input)} >
+							{inventory[fullDate.getDay() - 1][i].quantity}
+						</h4>
 					</div>;
 				})}
 			</div>

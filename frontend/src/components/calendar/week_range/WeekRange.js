@@ -3,18 +3,8 @@ import DateColumn from './DateColumn';
 import './WeekRange.css';
 
 // pass in the sunday Date object
-const WeekRange = ({ startDate }) => {
+const WeekRange = ({ startDate, inventory }) => {
 	const arr = [0, 1, 2, 3, 4]
-	// for (let i = 0; i < 5; i++) {
-	// 	let newDate = new Date();
-	// 	newDate.setDate(startDate.getDate() + i);
-	// 	// console.log(newDate);
-	// 	arr.push(
-	// 		<div className='date-column'>
-	// 			<DateColumn fullDate={newDate} />
-	// 		</div>
-	// 	);
-	// }
 
 	return (
 		<div className='week-range'>
@@ -22,7 +12,7 @@ const WeekRange = ({ startDate }) => {
                 let newDate = new Date();
                 newDate.setDate(startDate.getDate() + i);
                 return <div className='date-column' key={i.uniqueID}>
-                    <DateColumn fullDate={newDate} />
+                    <DateColumn fullDate={newDate} inventory={inventory} />
                 </div>;
             })}
 		</div>
