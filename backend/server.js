@@ -124,6 +124,7 @@ app.get('/updateitem/:collectionName', async (req, res) => {
 
   const Item = mongoose.model(collectionName, itemSchema);
   const data = req.params.data; // object
+  if(!data) res.status(404).send('Data not passed in');
 
   for (let i = 0; i < data.length; i++) {
     try {

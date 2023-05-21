@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import './DateColumn.css';
 
 const DateColumn = ({ fullDate, inventory }) => {
@@ -11,7 +11,8 @@ const DateColumn = ({ fullDate, inventory }) => {
 		const inputValues = {};
 		for (let i = 0; i < categories.length; i++) {
 			if (inventory) {
-				inputValues[categories[i]] = inventory[fullDate.getDay() - 1][i].quantity;
+				inputValues[categories[i]] = data[categories[i]];
+				console.log(inputValues[categories[i]])
 			} else {
 				inputValues[categories[i]] = "0";
 			}
@@ -21,31 +22,35 @@ const DateColumn = ({ fullDate, inventory }) => {
 
 
 	const [input, setInput] = useState(false);
-	const [data, setData] = useState(getCurrentData(false));
+	const [data, setData] = useState(getInventoryData());
 	const days = useMemo(() => {
 		return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 	}, []);
+	const [updated, setUpdate] = useState(false);
 
+	useEffect(() => {
+		console.log(data)
+	}, [data])
 	const getCurrentData = useCallback((changed) => {
 		if (!changed) {
-			const inputValues = getInventoryData();
-			setData(inputValues);
-			return inputValues
+			return getInventoryData();
 		}
-		console.log(data)
 		return data;
 	}, []);
-	
+
 	const keyPressed = (e) => {
 		if (e.key === 'Enter') {
 			console.log("Enter");
-			setInput(!input);
 			setData(getCurrentData(true));
+			console.log(data)
+			setInput(!input);
+			setUpdate(true);
 		}
 		else if (e.key === 'Escape') {
 			console.log("Escape");
-			setInput(!input);
 			setData(getCurrentData(false));
+			console.log(data)
+			setInput(!input);
 		}
 	};
 
@@ -61,7 +66,7 @@ const DateColumn = ({ fullDate, inventory }) => {
 				{categories.map((cat, i) => {
 					return <div className="category">
 						<input className="category" type="number"
-							placeholder={inventory[fullDate.getDay() - 1][i].quantity || "0"}
+							placeholder={updated ? data[categories[i]] : inventory[fullDate.getDay() - 1][i].quantity}
 							min="0"
 							max="99"
 							onChange={(ele) => data[categories[i]] = ele.target.value}
@@ -79,7 +84,7 @@ const DateColumn = ({ fullDate, inventory }) => {
 				{categories.map((cat, i) => {
 					return <div className="category category2">
 						<h4 className="value" onClick={() => setInput(!input)} >
-							{data[categories[i]]}
+							{updated ? data[categories[i]] : inventory[fullDate.getDay() - 1][i].quantity}
 						</h4>
 					</div>;
 				})}
