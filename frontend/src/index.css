@@ -6,13 +6,16 @@
   --primary: #1aac83;
   --error: #e7195a;
 }
+
 body {
   margin: 0;
   font-family: "Poppins";
 }
+
 header {
   background: #fff;
 }
+
 header .container {
   max-width: 1400px;
   margin: 0 auto;
@@ -21,12 +24,19 @@ header .container {
   align-items: center;
   justify-content: space-between;
 }
+
 header a {
   color: #333;
   text-decoration: none;
 }
-.pages{
+
+.pages {
   max-width: 1400px;
   padding: 20px;
   margin: 0 auto;
+}
+
+.blue-background {
+  background-color: #10074A;
+  color: white;
 }
