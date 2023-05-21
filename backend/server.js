@@ -24,7 +24,7 @@ const itemSchema = new mongoose.Schema({
 });
 
 const createNewItem = async (collectionName, itemSchema) => {
-  const Item = mongoose.model(collectionName, itemSchema);
+  const Item = mongoose.model(collectionName, itemSchema, collectionName);
   const newItems = [
     { id: 01, name: "Bag/Backpack", quantity: 0, price: 0, supplier: "None" },
     { id: 02, name: "Belt", quantity: 0, price: 0, supplier: "None" },
@@ -109,43 +109,6 @@ app.get('/updateitem/:collectionName/:name/:quantity', async (req, res) => {
   }
 });
 
-/*// Route to update item quantity by its name
-app.get('/updateitem/:collectionName', async (req, res) => {
-  const collectionName = req.params.collectionName;
-
-  // Gets all collections to check if requested collection exists
-  const collections = await mongoose.connection.db.listCollections().toArray();
-  const collectionNames = collections.map(c => c.name);
-
-  // If the collection requested doesn't exist, then create a new one
-  if (!collectionNames.includes(collectionName)) {
-    createNewItem(collectionName, itemSchema, collectionName);
-  }
-
-  const Item = mongoose.model(collectionName, itemSchema);
-  const data = req.params.data; // object
-  if(!data) res.status(404).send('Data not passed in');
-
-  for (let i = 0; i < data.length; i++) {
-    try {
-      const updatedItem = await Item.findOneAndUpdate(
-        { name: categories[i] },
-        { $inc: { quantity: data[i] } },
-        { new: true } // This option returns the updated document
-      );
-
-      if (!updatedItem) {
-        return res.status(404).send('Item not found');
-      }
-
-      res.json(updatedItem);
-    } catch (err) {
-      console.error(err);
-      res.status(500).send('Server Error');
-    }
-  }
-});
-*/
 app.get("/", (req, res) => {
   res.send("connected");
 });
