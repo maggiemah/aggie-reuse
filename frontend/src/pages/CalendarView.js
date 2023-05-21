@@ -1,28 +1,24 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Header from "../components/header/Header";
-import Month from "../components/calendar/month/Month"
 import WeekRange from "../components/calendar/week_range/WeekRange"
 import "./CalendarView.css"
 
 const CalendarView = () => {
 	const [inventory, setInventory] = useState(null); // array of inventory data for specified dates
+	const [firstDate] = useState(new Date());
+	const months = useMemo(() => {
+    	return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	}, []);
 
-	const getDefaultDateRange = useCallback(() => {
-		let newDate = new Date();
-		// let day = newDate.getDay();
-		// let date = newDate.getDate();
-		// let month = newDate.getMonth() + 1;
-		// let year = newDate.getFullYear();
+	const changeWeek = useCallback((fullDate, forward) => {
+		const daysAdjusted = forward ? 7 : -7;
+		fullDate.setDate(fullDate.getDate() + daysAdjusted);
+	}, [])
 
-		let firstDate = new Date();
-		firstDate.setDate(newDate.getDate() - 5);
-		let day = firstDate.getDay();
-		let date = firstDate.getDate();
-		let month = firstDate.getMonth() + 1;
-		let year = firstDate.getFullYear();
-	})
 
+	// initialize page
 	useEffect(() => {
+		firstDate.setDate(firstDate.getDate() - firstDate.getDay() + 1);
 		const fetchInventory = async (_date) => {
 			const month = _date.getMonth() + 1;
 			const date = _date.getDate();
@@ -55,14 +51,9 @@ const CalendarView = () => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	let newDate = new Date();
-	// let day = newDate.getDay();
-	// let date = newDate.getDate();
-	// let month = newDate.getMonth() + 1;
-	// let year = newDate.getFullYear();
 
-	let firstDate = new Date();
-	firstDate.setDate(newDate.getDate() - newDate.getDay() + 1);
+	// let firstDate = new Date();
+	firstDate.setDate(firstDate.getDate() - firstDate.getDay() + 1);
 
 	let day = firstDate.getDay();
 	let date = firstDate.getDate();
@@ -75,7 +66,11 @@ const CalendarView = () => {
 	return (
 		<><Header />
 		<div className="calendar-view">
-			<Month month_value={month} year={year}/>
+			<div class="month-box">
+				<h1 id='left-month-button' onClick={changeWeek(firstDate, false)}>&lt;</h1>
+				<h1>{months[month- 1]} {year}</h1>
+				<h1 id='right-month-button' onClick={changeWeek(firstDate, true)}>&gt;</h1>
+			</div>
 			<WeekRange startDate={firstDate}/>
 			<h2>hi</h2>
 			<>{year}-{month < 10 ? `0${month}` : ` ${month}`}-{date}, Day {day}</>
