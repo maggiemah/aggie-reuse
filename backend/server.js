@@ -47,7 +47,7 @@ app.get('/getitems/:collectionName', async (req, res) => {
 });
 
 // Route to update item quantity by its name
-app.put('/updateitem/:collectionName/:name/:increment', async (req, res) => {
+app.get('/updateitem/:collectionName/:name/:increment', async (req, res) => {
   const collectionName = req.params.collectionName;
 
   // Gets all collections to check if requested collection exists
