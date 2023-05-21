@@ -17,6 +17,30 @@ const CalendarView = () => {
 		fullDate.setDate(fullDate.getDate() + daysAdjusted);
 	}, [])
 
+	useEffect(() => {
+		const fetchInventory = async(startDate) => {
+			const month = startDate.getMonth();
+			const date = startDate.getDate();
+
+			// const year = startDate.getYear();
+			const response = await fetch(`http://localhost:3000//getitems/${month}%2F${date}_Items`, {
+				method: 'GET',
+			});
+			// const params = {
+			// 	collectionName: `${month}%2F${date}_Items`
+			// };
+			// const response = await fetch(`/getitems`, {
+			// 	method: 'GET',
+			// 	body: JSON.stringify( params )
+			// });
+			console.log(response);
+			const json = await response.json();
+			console.log(json);
+		}
+
+		fetchInventory(new Date());
+	}, []);
+
 
 	// // initialize page
 	// useEffect(() => {
@@ -82,13 +106,13 @@ const CalendarView = () => {
 	return (
 		<><Header />
 			<div className="calendar-view">
-				<div className="month-picker blue-background">
+				<div className={"month-picker"}>
 					<h1 id='left-month-button' onClick={changeWeek(firstDate, false)}>&lt;</h1>
 					<h1>{months[month - 1]} {year}</h1>
 					<h1 id='right-month-button' onClick={changeWeek(firstDate, true)}>&gt;</h1>
 				</div>
 				<div className="calendar-with-button">
-					<div className="calendar-grid">
+					<div className="category-list">
 						<button class="button">
 							<img src={pencil} alt='pencil' />
 							Add/Remove

@@ -11,11 +11,13 @@ const DateColumn = ({fullDate}) => {
 
 	return (
 		<div className='date-container'>
-			<div className='blue-background'>
-				<h3>{days[fullDate.getDay()-1]}</h3>
-				<h3>{months[fullDate.getMonth()]} {fullDate.getDate()}, {fullDate.getYear()}</h3>
+			<h3>{days[fullDate.getDay()-1]}</h3>
+			<h3>{months[fullDate.getMonth()]} {fullDate.getDate()}, {fullDate.getYear()}</h3>
+			<div>
+				<button className={true ? "show" : "hidden"}>-</button>
+				<h4>0</h4>
+				<button className={true ? "show" : "hidden"}>+</button>
 			</div>
-			<h4>0</h4>
 			<h4>0</h4>
 			<h4>0</h4>
 			<h4>0</h4>
