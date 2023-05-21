@@ -3,7 +3,7 @@ import './DateColumn.css';
 
 const DateColumn = ({ fullDate }) => {
 	const days = useMemo(() => {
-		return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+		return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 	}, []);
 	const [input, setInput] = useState(false);
 	// const months = useMemo(() => {
@@ -24,7 +24,7 @@ const DateColumn = ({ fullDate }) => {
 				{categories.map((cat, i) => {
 					return <div className="category">
 						{/* <button>-</button> */}
-						<input className="value" type="number"
+						<input className="category" type="number"
 							placeholder="0"
 							min="0"
 							max="99"
@@ -41,7 +41,7 @@ const DateColumn = ({ fullDate }) => {
 				<h3>{days[fullDate.getDay() - 1]}</h3>
 
 				{categories.map((cat, i) => {
-					return <div className="category">
+					return <div className="category category2">
 						<h4 className="value" onClick={() => setInput(!input)} >0</h4>
 					</div>;
 				})}

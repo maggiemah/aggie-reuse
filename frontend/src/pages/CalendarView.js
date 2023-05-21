@@ -143,7 +143,7 @@ const CalendarView = () => {
 					<div className="calendar-grid">
 						<button className="button" onClick={() => changeView()}>
 							<img src={pencil} alt='pencil' />
-							Add/Remove
+							Cancel
 						</button>
 						{cat_arr}
 					</div>
