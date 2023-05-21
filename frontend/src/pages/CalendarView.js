@@ -70,16 +70,31 @@ const CalendarView = () => {
 	// let year = firstDate.getFullYear();
 	let month = 5;
 	let year = 2023;
+	const categories = ["Bags", "Belts", "Books", "Dresses", "Hats", 
+		"Households", "Jackets", "Long-Sleeves", "Pants", "Jewelry", 
+		"Supplies", "Shirts", "Shoes", "Shorts", "Sunglasses", "Sweaters", 
+		"Tanks", "Ties", "Misc"];
 
-
+	let cat_arr = [];
+	for (let i = 0; i < categories.length; i++) {
+		cat_arr.push(
+			<div className="category-column">
+				<hr></hr>
+				<p>{categories[i]}</p>
+			</div>
+		);
+	}
 	return (
 		<><Header />
 		<div className="calendar-view">
 			<Month month_value={month} year={year}/>
 			<WeekRange startDate={firstDate}/>
-			<h2>hi</h2>
-			<>{year}-{month < 10 ? `0${month}` : ` ${month}`}-{date}, Day {day}</>
-		</div></>
+			{/* <h2>hi</h2>
+			<>{year}-{month < 10 ? `0${month}` : ` ${month}`}-{date}, Day {day}</> */}
+		</div>
+		<button>Add/Remove</button>
+		{cat_arr}
+		</>
 	)
 }
 
