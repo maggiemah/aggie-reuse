@@ -33,7 +33,31 @@ app.get('/getitems/:collectionName', async (req, res) => {
 
   // If the collection requested doesn't exist, then return error
   if (!collectionNames.includes(name)) {
-    return res.status(404).send('Collection not found');
+    // Initialize new collection with 20 new documents for each item
+    const Item = mongoose.model(name, itemSchema, name);
+    const newItems = [
+      { id: 01, name: "Bag/Backpack", quantity: 0, price: 0, supplier: "None" },
+      { id: 02, name: "Belt", quantity: 0, price: 0, supplier: "None" },
+      { id: 03, name: "Books", quantity: 0, price: 0, supplier: "None" },
+      { id: 04, name: "Dress", quantity: 0, price: 0, supplier: "None" },
+      { id: 05, name: "Hat", quantity: 0, price: 0, supplier: "None" },
+      { id: 06, name: "Household", quantity: 0, price: 0, supplier: "None" },
+      { id: 07, name: "Jacket", quantity: 0, price: 0, supplier: "None" },
+      { id: 08, name: "Long-sleeve/button-up", quantity: 0, price: 0, supplier: "None" },
+      { id: 09, name: "Pants/Jeans", quantity: 0, price: 0, supplier: "None" },
+      { id: 10, name: "Ring/Jewelry", quantity: 0, price: 0, supplier: "None" },
+      { id: 11, name: "School_supplies", quantity: 0, price: 0, supplier: "None" },
+      { id: 12, name: "Shirts", quantity: 0, price: 0, supplier: "None" },
+      { id: 13, name: "Shoes", quantity: 0, price: 0, supplier: "None" },
+      { id: 14, name: "Shorts", quantity: 0, price: 0, supplier: "None" },
+      { id: 15, name: "Skirt", quantity: 0, price: 0, supplier: "None" },
+      { id: 16, name: "Sunglasses", quantity: 0, price: 0, supplier: "None" },
+      { id: 17, name: "Sweater/Cardigan", quantity: 0, price: 0, supplier: "None" },
+      { id: 18, name: "Tank_top", quantity: 0, price: 0, supplier: "None" },
+      { id: 19, name: "Tie", quantity: 0, price: 0, supplier: "None" },
+      { id: 20, name: "Miscellaneous", quantity: 0, price: 0, supplier: "None" }
+      ];
+      await Item.insertMany(newItems);
   }
 
   const Item = mongoose.model(name, itemSchema, name);
@@ -112,5 +136,5 @@ app.get("/", (req, res) => {
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
-  console.log("Server listening the port http://localhost/" + port);
+  console.log("Server listening to the port http://localhost/" + port);
 });
