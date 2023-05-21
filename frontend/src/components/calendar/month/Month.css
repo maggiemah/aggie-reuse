@@ -4,3 +4,12 @@
     justify-content: center;
     
 }
+
+#left-month-button {
+    margin-right: 24px;
+    font-weight: 100;
+}
+#right-month-button {
+    margin-left: 24px;
+    font-weight: 100;
+}
