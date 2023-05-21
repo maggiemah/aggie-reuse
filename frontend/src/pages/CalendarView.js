@@ -42,6 +42,14 @@ const CalendarView = () => {
 	}, []);
 
 
+	// const 
+
+	const changeView = () => {
+
+		console.log("clicked");
+	};
+
+
 	// // initialize page
 	// useEffect(() => {
 	// 	firstDate.setDate(firstDate.getDate() - firstDate.getDay() + 1);
@@ -105,6 +113,7 @@ const CalendarView = () => {
 	}
 	return (
 		<><Header />
+			<div className="test"></div>
 			<div className="calendar-view">
 				<div className={"month-picker"}>
 					<h1 id='left-month-button' onClick={changeWeek(firstDate, false)}>&lt;</h1>
@@ -112,8 +121,8 @@ const CalendarView = () => {
 					<h1 id='right-month-button' onClick={changeWeek(firstDate, true)}>&gt;</h1>
 				</div>
 				<div className="calendar-with-button">
-					<div className="category-list">
-						<button class="button">
+					<div className="calendar-grid">
+						<button className="button" onClick={() => changeView()}>
 							<img src={pencil} alt='pencil' />
 							Add/Remove
 						</button>
