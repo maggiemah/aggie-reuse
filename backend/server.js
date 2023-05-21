@@ -1,7 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
+var cors = require('cors');
 
 const app = express();
+app.use(cors());
 
 // MongoDB connection
 const uri = 'mongodb+srv://jiff3:AZOzXtaEaNAmvv6j@baggies.ayk7doq.mongodb.net/Aggie_Reuse_Inventory?retryWrites=true&w=majority';
@@ -22,13 +24,60 @@ const itemSchema = new mongoose.Schema({
   supplier: String
 });
 
+function findPreviousDay(dateString) {
+  // Parse the date
+  let dateParts = dateString.split('/');
+  let dateObject = new Date(+dateParts[2], dateParts[0] - 1, +dateParts[1]);
+
+  // Subtract one day
+  dateObject.setDate(dateObject.getDate() - 1);
+
+  // Format the date in 'MM/DD/YY' format
+  let year = dateObject.getFullYear().toString().substr(2, 2);
+  let month = (dateObject.getMonth() + 1).toString().padStart(2, '0');
+  let day = dateObject.getDate().toString().padStart(2, '0');
+
+  return `${month}/${day}/${year}`;
+}
+
 // Returns JSON of document of requested collection
 app.get('/getitems/:collectionName', async (req, res) => {
   const name = req.params.collectionName;
+
+  // Gets all collections to check if requested collection exists
+  const collections = await mongoose.connection.db.listCollections().toArray();
+  const collectionNames = collections.map(c => c.name);
+
+  // If the collection requested doesn't exist, then create a new one only if the collection requested is a date not in the future
+  if (!collectionNames.includes(name)) {
+    return res.status(404).send('Collectiom not found');
+    /*try {
+      const Item = mongoose.model(name, itemSchema, name);
+      const items = await Item.find({ }); // Creates collection with name var as its name
+
+      // Create new documents in 'Items'
+      const copiedItems = items.map(item => {
+        // Remove '_id' property to avoid duplicate key error
+        const { ...rest } = item._doc;
+        return rest;
+      });
+
+      // Insert copied items into the 'Items' collection
+      await Item.insertMany(copiedItems);
+
+      res.status(200).send('Items collection has been duplicated into Items2');
+
+    } catch (err) {
+      console.log(err);
+      res.status(500).send(err.message);
+    }*/
+  }
+
   const Item = mongoose.model(name, itemSchema, name);
   const items = await Item.find({ });
   console.log(items);
-  if (!items) {
+
+  if (items.length == 0) {
     return res.status(404).send('Item not found');
   }
   res.json(items);
@@ -43,7 +92,7 @@ app.put('/updateitem/:collectionName/:name/:increment', async (req, res) => {
   if(increment == 0){increment = -1;}
 
   try {
-    const updatedItem = await Item.findByIdAndUpdate(
+    const updatedItem = await Item.findOneAndUpdate(
       { name: name },
       { $inc: { quantity: increment } },
       { new: true } // This option returns the updated document
@@ -59,7 +108,6 @@ app.put('/updateitem/:collectionName/:name/:increment', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-
 
 
 app.get("/", (req, res) => {
