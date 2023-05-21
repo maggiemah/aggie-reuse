@@ -1,8 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require('cors');
+
 const app = express();
-const cors = require('cors')
-app.use(cors())
+app.use(cors());
+app.use(express.json());
 
 // MongoDB connection
 const uri = 'mongodb+srv://jiff3:AZOzXtaEaNAmvv6j@baggies.ayk7doq.mongodb.net/Aggie_Reuse_Inventory?retryWrites=true&w=majority';

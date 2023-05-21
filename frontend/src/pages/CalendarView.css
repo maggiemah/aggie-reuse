@@ -6,7 +6,7 @@
     width: 100%;
     margin: 0;
     padding-bottom: 12px;
-    
+
 }
 
 .month-picker {
@@ -74,4 +74,15 @@
 .category-column > p {
 	margin: 21.28px 0;
     margin-bottom: 26px;
+}
+
+.week-range {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	/* margin-bottom: 24px; */
+}
+
+.date-column {
+	padding: 0 20px;
 }

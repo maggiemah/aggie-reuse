@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Header from "../components/header/Header";
-import WeekRange from "../components/calendar/week_range/WeekRange"
+import DateColumn from './DateColumn';
 import pencil from "../assets/pencil.png";
 
 import "./CalendarView.css"
@@ -9,6 +9,7 @@ const CalendarView = () => {
 	const mondayToday = new Date();
 	mondayToday.setDate(mondayToday.getDate() - mondayToday.getDay() + 1)
 	const [firstDate] = useState(mondayToday);
+	const [firstDateUpdate, setFirstDateUpdate] = useState(false);
 	const [inventory, setInventory] = useState(null); // array of inventory data for specified dates
 	const [datesToUpdate, setUpdates] = useState(null);
 	const months = useMemo(() => {
@@ -17,7 +18,10 @@ const CalendarView = () => {
 
 	const changeWeek = useCallback((forward) => {
 		const daysAdjusted = forward ? 7 : -7;
+		console.log("before: ", firstDate);
 		firstDate.setDate(firstDate.getDate() + daysAdjusted);
+		console.log("after: ", firstDate);
+		setFirstDateUpdate(true);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
@@ -29,6 +33,7 @@ const CalendarView = () => {
 	}, []);
 
 	useEffect(() => {
+		console.log(firstDate)
 		const fetchInventory = async (startDate) => {
 			const data = []; // array of data for the 5 days of current week
 			let response;
@@ -50,10 +55,12 @@ const CalendarView = () => {
 				}
 			}
 			setInventory(data);
+			console.log(data);
 		}
 
 		fetchInventory(firstDate).catch(err => console.log(err));
-	}, [firstDate]);
+		setFirstDateUpdate(false);
+	}, [firstDate, firstDateUpdate]);
 
 	useEffect(() => {
 		if (!inventory || !datesToUpdate) return;
@@ -67,7 +74,7 @@ const CalendarView = () => {
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({data: inventory[fullDate.getDay()-1]}),
+					body: JSON.stringify({ data: inventory[fullDate.getDay() - 1] }),
 				});
 			}
 			catch (err) {
@@ -82,7 +89,7 @@ const CalendarView = () => {
 			updateInventory(date).catch(err => console.log(err));
 		}
 		setUpdates(null);
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [datesToUpdate, inventory]);
 
 	useEffect(() => {
@@ -104,14 +111,15 @@ const CalendarView = () => {
 			</div>
 		);
 	}
+	const arr = [0, 1, 2, 3, 4]
 	return (
 		<><Header />
 			<div className="test"></div>
 			<div className="calendar-view">
 				<div className={"month-picker"}>
-					<h1 id='left-month-button' onClick={changeWeek(false)}>&lt;</h1>
+					<h1 id='left-month-button' onClick={() => changeWeek(false)}>&lt;</h1>
 					<h1>{months[month - 1]} {year}</h1>
-					<h1 id='right-month-button' onClick={changeWeek(true)}>&gt;</h1>
+					<h1 id='right-month-button' onClick={() => changeWeek(true)}>&gt;</h1>
 				</div>
 				<div className="calendar-with-button">
 					<div className="calendar-grid">
@@ -121,7 +129,15 @@ const CalendarView = () => {
 						</button>
 						{cat_arr}
 					</div>
-					<WeekRange startDate={firstDate} inventory={inventory} />
+					<div className='week-range'>
+						{arr.map((i) => {
+							let newDate = new Date();
+							newDate.setDate(firstDate.getDate() + i);
+							return <div className='date-column' key={i.uniqueID}>
+								<DateColumn fullDate={newDate} inventory={inventory} setInventory={setInventory} dayInd={i} />
+							</div>;
+						})}
+					</div>
 				</div>
 			</div>
 		</>
