@@ -18,21 +18,18 @@ const CalendarView = () => {
 	}, [])
 
 	useEffect(() => {
-		const fetchInventory = async(startDate) => {
+		const fetchInventory = async (startDate) => {
 			const month = startDate.getMonth();
 			const date = startDate.getDate();
-
-			// const year = startDate.getYear();
-			const response = await fetch(`http://localhost:3000//getitems/${month}%2F${date}_Items`, {
-				method: 'GET',
-			});
-			// const params = {
-			// 	collectionName: `${month}%2F${date}_Items`
-			// };
-			// const response = await fetch(`/getitems`, {
-			// 	method: 'GET',
-			// 	body: JSON.stringify( params )
-			// });
+			let response;
+			try {
+				response = await fetch(`http://localhost:3000/getitems/${month + 1}%2F${date}_Items`, {
+					method: 'GET',
+				});
+			}
+			catch (err) {
+				console.log(err);
+			}
 			console.log(response);
 			const json = await response.json();
 			console.log(json);
@@ -40,6 +37,36 @@ const CalendarView = () => {
 
 		fetchInventory(new Date());
 	}, []);
+
+	useEffect(() => {
+		const updateInventory = async (fullDate) => {
+			const month = fullDate.getMonth();
+			const date = fullDate.getDate();
+			let response;
+			try {
+				response = await fetch(`http://localhost:3000/updateitem/${month + 1}%2F${date}_Items`, {
+					method: 'PUT',
+
+				});
+			}
+			catch (err) {
+				console.log(err);
+			}
+			console.log(response);
+			const json = await response.json();
+			console.log(json);
+		}
+
+		updateInventory(new Date());
+	}, []);
+
+
+	// const
+
+	const changeView = () => {
+
+		console.log("clicked");
+	};
 
 
 	// // initialize page
@@ -105,6 +132,7 @@ const CalendarView = () => {
 	}
 	return (
 		<><Header />
+			<div className="test"></div>
 			<div className="calendar-view">
 				<div className={"month-picker"}>
 					<h1 id='left-month-button' onClick={changeWeek(firstDate, false)}>&lt;</h1>
@@ -112,8 +140,8 @@ const CalendarView = () => {
 					<h1 id='right-month-button' onClick={changeWeek(firstDate, true)}>&gt;</h1>
 				</div>
 				<div className="calendar-with-button">
-					<div className="category-list">
-						<button class="button">
+					<div className="calendar-grid">
+						<button className="button" onClick={() => changeView()}>
 							<img src={pencil} alt='pencil' />
 							Add/Remove
 						</button>

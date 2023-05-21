@@ -7,4 +7,19 @@
 
 .date-container > h3 {
 	margin: 0;
+	color: white;
+}
+
+.category {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.category > button {
+	border: .2;
+	margin-left: 4px;
+	margin-right: 4px;
+	border-radius: 45px;
 }
