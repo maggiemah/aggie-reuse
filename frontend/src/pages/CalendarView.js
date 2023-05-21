@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import Header from "../components/header/Header";
+import Month from "../components/calendar/month/Month"
 
 const CalendarView = () => {
 	const [inventory, setInventory] = useState(null); // array of inventory data for specified dates
@@ -59,12 +60,15 @@ const CalendarView = () => {
 
 	let day = firstDate.getDay();
 	let date = firstDate.getDate();
-	let month = firstDate.getMonth() + 1;
-	let year = firstDate.getFullYear();
-
+	// let month = firstDate.getMonth() + 1;
+	// let year = firstDate.getFullYear();
+	let month = 5;
+	let year = 2023;
 
 	return (
-		<><Header /><div className="calendar-view">
+		<><Header />
+		<Month month_value={month} year={year}/>
+		<div className="calendar-view">
 			<h2>hi</h2>
 			<>{year}-{month < 10 ? `0${month}` : ` ${month}`}-{date}, Day {day}</>
 
